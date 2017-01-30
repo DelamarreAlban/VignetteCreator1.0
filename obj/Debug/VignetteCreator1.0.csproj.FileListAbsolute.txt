@@ -1,0 +1,12 @@
+c:\users\alban\documents\visual studio 2015\Projects\VignetteCreator1.0\VignetteCreator1.0\bin\Debug\VignetteCreator1.0.exe.config
+c:\users\alban\documents\visual studio 2015\Projects\VignetteCreator1.0\VignetteCreator1.0\bin\Debug\VignetteCreator1.0.exe
+c:\users\alban\documents\visual studio 2015\Projects\VignetteCreator1.0\VignetteCreator1.0\bin\Debug\VignetteCreator1.0.pdb
+c:\users\alban\documents\visual studio 2015\Projects\VignetteCreator1.0\VignetteCreator1.0\bin\Debug\System.Net.Http.dll
+c:\users\alban\documents\visual studio 2015\Projects\VignetteCreator1.0\VignetteCreator1.0\bin\Debug\System.Net.Http.xml
+c:\users\alban\documents\visual studio 2015\Projects\VignetteCreator1.0\VignetteCreator1.0\obj\Debug\VignetteCreator1.0.csprojResolveAssemblyReference.cache
+c:\users\alban\documents\visual studio 2015\Projects\VignetteCreator1.0\VignetteCreator1.0\obj\Debug\VignetteCreator1._0.VignetteCreator.resources
+c:\users\alban\documents\visual studio 2015\Projects\VignetteCreator1.0\VignetteCreator1.0\obj\Debug\VignetteCreator1._0.Properties.Resources.resources
+c:\users\alban\documents\visual studio 2015\Projects\VignetteCreator1.0\VignetteCreator1.0\obj\Debug\VignetteCreator1.0.csproj.GenerateResource.Cache
+c:\users\alban\documents\visual studio 2015\Projects\VignetteCreator1.0\VignetteCreator1.0\obj\Debug\VignetteCreator1.0.exe
+c:\users\alban\documents\visual studio 2015\Projects\VignetteCreator1.0\VignetteCreator1.0\obj\Debug\VignetteCreator1.0.pdb
+c:\users\alban\documents\visual studio 2015\Projects\VignetteCreator1.0\VignetteCreator1.0\obj\Debug\VignetteCreator1._0.ContextMenuAddNode.resources

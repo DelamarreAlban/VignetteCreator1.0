@@ -48,6 +48,8 @@
             this.myVignette.TabIndex = 0;
             this.myVignette.TabStop = false;
             this.myVignette.MouseDown += new System.Windows.Forms.MouseEventHandler(this.myVignette_MouseDown);
+            this.myVignette.MouseMove += new System.Windows.Forms.MouseEventHandler(this.myVignette_MouseMove);
+            this.myVignette.MouseUp += new System.Windows.Forms.MouseEventHandler(this.myVignette_MouseUp);
             // 
             // menuStrip1
             // 

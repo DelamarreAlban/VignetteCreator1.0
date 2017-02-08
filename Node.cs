@@ -13,6 +13,7 @@ namespace VignetteCreator1._0
         private string name;
         private string type;
         private Point position;
+        private System.Drawing.Rectangle container;
         private GraphicsPath shape;
         private Color color;
         private List<Edge> incoming = new List<Edge>();
@@ -43,10 +44,22 @@ namespace VignetteCreator1._0
             set{position = value;}
         }
 
+        public System.Drawing.Rectangle Container
+        {
+            get{return container;}
+            set{container = value;}
+        }
+
+        public string Name
+        {
+            get{return name;}
+            set{name = value;}
+        }
+
         public Node(Point _position, string _name, string _type, string _description)
         {
             Position = _position;
-            name = _name;
+            Name = _name;
             Type = _type;
             description = _description;
 
@@ -57,22 +70,22 @@ namespace VignetteCreator1._0
 
         public void getShape()
         {
-            System.Drawing.Rectangle container = new System.Drawing.Rectangle(Position.X, Position.Y, 100, 100);
+            Container = new System.Drawing.Rectangle(Position.X, Position.Y, 100, 100);
             if (type == "teacher_action")
             {
                 //Orange hexagon
                 Color = Color.Orange;
                 Point[] points = new Point[7];
 
-                int half = container.Height / 2;
-                int quart = container.Width / 4;
-                points[0] = new Point(container.Left + quart, container.Top);
-                points[1] = new Point(container.Right - quart, container.Top);
-                points[2] = new Point(container.Right, container.Top + half);
-                points[3] = new Point(container.Right - quart, container.Bottom);
-                points[4] = new Point(container.Left + quart, container.Bottom);
-                points[5] = new Point(container.Left, container.Top + half);
-                points[6] = new Point(container.Left + quart, container.Top);
+                int half = Container.Height / 2;
+                int quart = Container.Width / 4;
+                points[0] = new Point(Container.Left + quart, Container.Top);
+                points[1] = new Point(Container.Right - quart, Container.Top);
+                points[2] = new Point(Container.Right, Container.Top + half);
+                points[3] = new Point(Container.Right - quart, Container.Bottom);
+                points[4] = new Point(Container.Left + quart, Container.Bottom);
+                points[5] = new Point(Container.Left, Container.Top + half);
+                points[6] = new Point(Container.Left + quart, Container.Top);
 
                 shape = new GraphicsPath();
                 shape.AddLines(points);
@@ -83,11 +96,11 @@ namespace VignetteCreator1._0
                 Color = Color.LightSkyBlue;
 
                 Point[] points = new Point[5];
-                points[0] = new Point(container.Left, container.Top);
-                points[1] = new Point(container.Right, container.Top);
-                points[2] = new Point(container.Right, container.Bottom);
-                points[3] = new Point(container.Left, container.Bottom);
-                points[4] = new Point(container.Left, container.Top);
+                points[0] = new Point(Container.Left, Container.Top);
+                points[1] = new Point(Container.Right, Container.Top);
+                points[2] = new Point(Container.Right, Container.Bottom);
+                points[3] = new Point(Container.Left, Container.Bottom);
+                points[4] = new Point(Container.Left, Container.Top);
 
                 shape = new GraphicsPath();
                 shape.AddLines(points);
@@ -97,13 +110,13 @@ namespace VignetteCreator1._0
                 //Yellow diamond
                 color = Color.Yellow;
                 Point[] points = new Point[5];
-                int half_h = container.Height / 2;
-                int half_w = container.Width / 2;
-                points[0] = new Point(container.Left + half_w, container.Top);
-                points[1] = new Point(container.Right, container.Top + half_h);
-                points[2] = new Point(container.Left + half_w, container.Bottom);
-                points[3] = new Point(container.Left, container.Top + half_h);
-                points[4] = new Point(container.Left + half_w, container.Top);
+                int half_h = Container.Height / 2;
+                int half_w = Container.Width / 2;
+                points[0] = new Point(Container.Left + half_w, Container.Top);
+                points[1] = new Point(Container.Right, Container.Top + half_h);
+                points[2] = new Point(Container.Left + half_w, Container.Bottom);
+                points[3] = new Point(Container.Left, Container.Top + half_h);
+                points[4] = new Point(Container.Left + half_w, Container.Top);
                 shape = new GraphicsPath();
                 shape.AddLines(points);
 
@@ -113,15 +126,15 @@ namespace VignetteCreator1._0
                 //Red rounded rectangle
                 color = Color.Red;
                 Point[] points = new Point[7];
-                int half = container.Height / 2;
-                int quart = container.Width / 4;
-                points[0] = new Point(container.Left, container.Top);
-                points[1] = new Point(container.Right, container.Top);
-                points[2] = new Point(container.Right + quart, container.Top + half);
-                points[3] = new Point(container.Right, container.Bottom);
-                points[4] = new Point(container.Left, container.Bottom);
-                points[5] = new Point(container.Left - quart, container.Top + half);
-                points[6] = new Point(container.Left, container.Top);
+                int half = Container.Height / 2;
+                int quart = Container.Width / 4;
+                points[0] = new Point(Container.Left, Container.Top);
+                points[1] = new Point(Container.Right, Container.Top);
+                points[2] = new Point(Container.Right + quart, Container.Top + half);
+                points[3] = new Point(Container.Right, Container.Bottom);
+                points[4] = new Point(Container.Left, Container.Bottom);
+                points[5] = new Point(Container.Left - quart, Container.Top + half);
+                points[6] = new Point(Container.Left, Container.Top);
 
                 shape = new GraphicsPath();
                 shape.AddLine(points[0], points[1]);
@@ -134,12 +147,12 @@ namespace VignetteCreator1._0
                 //White parallelogram
                 color = Color.White;
                 Point[] points = new Point[5];
-                int quart = container.Width / 4;
-                points[0] = new Point(container.Left + quart, container.Top);
-                points[1] = new Point(container.Right + quart, container.Top);
-                points[2] = new Point(container.Right, container.Bottom);
-                points[3] = new Point(container.Left, container.Bottom);
-                points[4] = new Point(container.Left + quart, container.Top);
+                int quart = Container.Width / 4;
+                points[0] = new Point(Container.Left + quart, Container.Top);
+                points[1] = new Point(Container.Right + quart, Container.Top);
+                points[2] = new Point(Container.Right, Container.Bottom);
+                points[3] = new Point(Container.Left, Container.Bottom);
+                points[4] = new Point(Container.Left + quart, Container.Top);
 
                 shape = new GraphicsPath();
                 shape.AddLines(points);

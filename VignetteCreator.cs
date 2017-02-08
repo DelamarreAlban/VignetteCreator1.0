@@ -19,6 +19,8 @@ namespace VignetteCreator1._0
         List<Edge> edges = new List<Edge>();
         ContextMenuAddNode addNodeContextMenu;
 
+        Node movingNode = null;
+
         public VignetteCreator()
         {
             InitializeComponent();
@@ -36,17 +38,35 @@ namespace VignetteCreator1._0
 
         }
 
+
+
         private void paint()
         {
-            Graphics graphics = Graphics.FromImage(myVignette.Image);
-            graphics.Clear(Color.White);
-
-            foreach (Node n in nodes)
+            
+            if (movingNode == null)
             {
-                //Console.WriteLine(n.Position);
-                drawNode(graphics, n);
+                Graphics graphics = Graphics.FromImage(myVignette.Image);
+                graphics.Clear(Color.White);
+
+                foreach (Node n in nodes)
+                {
+                    //Console.WriteLine(n.Position);
+                    drawNode(graphics, n);
+                }
+                
+            }
+            else
+            {
+                Bitmap bitmap = new Bitmap(myVignette.Image.Width, myVignette.Image.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                bitmap.MakeTransparent();
+                using (Graphics graph = Graphics.FromImage(bitmap))
+                {
+                    drawNode(graph, movingNode);
+                }
+                myVignette.Image = bitmap;   
             }
             Invalidate();
+            myVignette.Refresh();
         }
 
         private void drawNode(Graphics g, Node n)
@@ -61,17 +81,64 @@ namespace VignetteCreator1._0
 
         private void myVignette_MouseDown(object sender, MouseEventArgs e)
         {
+            MouseEventArgs me = (MouseEventArgs)e;
+            Point clickCoordinates = me.Location;
             //When click on the side of the screen, add an offset to display all butons within the screen!!
             //When click on shape different menu appears!
-            if(addNodeContextMenu != null)
+            if (addNodeContextMenu != null)
                 addNodeContextMenu.Close();
             addNodeContextMenu = null;
             if (e.Button == MouseButtons.Right)
             {
-                MouseEventArgs me = (MouseEventArgs)e;
-                Point coordinates = me.Location;
-                addNodeContextMenu = new ContextMenuAddNode(this, new Point(me.Location.X, me.Location.Y));
+                addNodeContextMenu = new ContextMenuAddNode(this, clickCoordinates);
                 addNodeContextMenu.Show();
+            }
+            else if(e.Button == MouseButtons.Left)
+            {
+                if (movingNode == null)
+                {
+                    foreach (Node n in nodes)
+                    {
+                        if (n.Container.Contains(clickCoordinates))
+                        {
+                            movingNode = n;
+                            myVignette.BackgroundImage = myVignette.Image;
+                        }
+                    }
+                }
+                else
+                {
+
+                }
+            }
+        }
+
+        private void myVignette_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (movingNode != null)
+            {
+                MouseEventArgs me = (MouseEventArgs)e;
+                Point clickCoordinates = me.Location;
+                movingNode.Position = clickCoordinates;
+                movingNode.getShape();
+                Console.WriteLine(movingNode.Position);
+                paint();
+            }
+        }
+
+        private void myVignette_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                MouseEventArgs me = (MouseEventArgs)e;
+                Point clickCoordinates = me.Location;
+                if(movingNode != null)
+                {
+                    movingNode.Position = clickCoordinates;
+                    movingNode = null;
+                    paint();
+                }
+                
             }
         }
 
@@ -100,5 +167,12 @@ namespace VignetteCreator1._0
                 myVignette.Image = bmp;
             }
         }
+
+        private void moveNode(Node n)
+        {
+
+        }
+
+        
     }
 }

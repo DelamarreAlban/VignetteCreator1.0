@@ -53,6 +53,7 @@
             this.studentAction.TabIndex = 1;
             this.studentAction.Text = "Student Action";
             this.studentAction.UseVisualStyleBackColor = true;
+            this.studentAction.Click += new System.EventHandler(this.studentAction_Click);
             // 
             // finalNode
             // 
@@ -62,6 +63,7 @@
             this.finalNode.TabIndex = 2;
             this.finalNode.Text = "Final Node";
             this.finalNode.UseVisualStyleBackColor = true;
+            this.finalNode.Click += new System.EventHandler(this.finalNode_Click);
             // 
             // classAction
             // 
@@ -71,6 +73,7 @@
             this.classAction.TabIndex = 3;
             this.classAction.Text = "Class Action";
             this.classAction.UseVisualStyleBackColor = true;
+            this.classAction.Click += new System.EventHandler(this.classAction_Click);
             // 
             // decisionAction
             // 
@@ -80,6 +83,7 @@
             this.decisionAction.TabIndex = 4;
             this.decisionAction.Text = "Decision";
             this.decisionAction.UseVisualStyleBackColor = true;
+            this.decisionAction.Click += new System.EventHandler(this.decisionAction_Click);
             // 
             // ContextMenuAddNode
             // 

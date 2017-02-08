@@ -85,8 +85,31 @@ namespace VignetteCreator1._0
 
         private void teacherAction_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Click");
             parent.addNode("teacher_action", position);
+            this.Close();
+        }
+
+        private void studentAction_Click(object sender, EventArgs e)
+        {
+            parent.addNode("student_action", position);
+            this.Close();
+        }
+
+        private void decisionAction_Click(object sender, EventArgs e)
+        {
+            parent.addNode("decision", position);
+            this.Close();
+        }
+
+        private void finalNode_Click(object sender, EventArgs e)
+        {
+            parent.addNode("final_node", position);
+            this.Close();
+        }
+
+        private void classAction_Click(object sender, EventArgs e)
+        {
+            parent.addNode("class_action", position);
             this.Close();
         }
     }

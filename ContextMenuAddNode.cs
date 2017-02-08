@@ -15,15 +15,12 @@ namespace VignetteCreator1._0
         private VignetteCreator parent;
         private Point position;
 
-        public ContextMenuAddNode(VignetteCreator _parent, Point _position)
+        public ContextMenuAddNode()
         {
             // 
             // Required for Windows Form Designer support. 
             //
             InitializeComponent();
-            parent = _parent;
-            position = _position;
-            this.Location = _position;
             
             // Initialize the user-defined button, 
             // including defining handler for Click message, 
@@ -36,6 +33,21 @@ namespace VignetteCreator1._0
             myButton.Size = new System.Drawing.Size(101, 101);
             this.Controls.Add(myButton);
             */
+        }
+
+        // add this code after the class' default constructor
+
+        public ContextMenuAddNode(VignetteCreator _parent, Point _position) : this()
+        {
+            parent = _parent;
+            position = _position;
+
+            Load += new EventHandler(ContextMenuAddNode_Load);
+        }
+
+        private void ContextMenuAddNode_Load(object sender, System.EventArgs e)
+        {
+            this.SetDesktopLocation(position.X, position.Y);
         }
 
         protected override void OnPaintBackground(PaintEventArgs e)

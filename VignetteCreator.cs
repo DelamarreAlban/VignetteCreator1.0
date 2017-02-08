@@ -37,13 +37,27 @@ namespace VignetteCreator1._0
 
         }
 
-        private void myVignette_Paint(object sender, PaintEventArgs e)
+        private void paint()
         {
-            //drawShape(e, "teacher_action");
-            //drawShape(e, "student_action");
-            //drawShape(e, "class_action");
-            //drawShape(e, "final_node");
-            //drawShape(e, "decision");
+            Graphics graphics = Graphics.FromImage(myVignette.Image);
+            graphics.Clear(Color.White);
+
+            foreach (Node n in nodes)
+            {
+                //Console.WriteLine(n.Position);
+                drawNode(graphics, n);
+            }
+            Invalidate();
+        }
+
+        private void drawNode(Graphics g, Node n)
+        {
+            using (Pen pen = new Pen(Color.Black, 2))
+            using (SolidBrush brush = new SolidBrush(n.Color))
+            {
+                g.FillPath(brush, n.Shape);
+                g.DrawPath(pen, n.Shape);
+            }
         }
 
         private void drawShape(PaintEventArgs e, string type)
@@ -172,63 +186,43 @@ namespace VignetteCreator1._0
 
         private void myVignette_MouseDown(object sender, MouseEventArgs e)
         {
+            //When click on the side of the screen, add an offset to display all butons within the screen!!
             if(addNodeContextMenu != null)
                 addNodeContextMenu.Close();
             addNodeContextMenu = null;
             if (e.Button == MouseButtons.Right)
             {
-                //NEED AUTOSCROLL DE L'IMAGE!!!
-                //IMAGE A L'INFINIE CONCEPTUELLEMENT
-                Console.WriteLine("CLICK at " + new Point(MousePosition.X, MousePosition.Y).ToString());
-                addNodeContextMenu = new ContextMenuAddNode(this, new Point(MousePosition.X,MousePosition.Y));
+                MouseEventArgs me = (MouseEventArgs)e;
+                Point coordinates = me.Location;
+                Console.WriteLine("CLICK at " + new Point(me.Location.X, me.Location.Y).ToString());
+                addNodeContextMenu = new ContextMenuAddNode(this, new Point(me.Location.X, me.Location.Y));
                 addNodeContextMenu.Show();
             }
         }
 
         public void addNode(string type, Point position)
         {
-            Graphics graphics = Graphics.FromImage(myVignette.Image);
             if (type == "teacher_action")
             {
-                //Console.WriteLine("ADD TEACHER ACTION at " + position.ToString());
-                Console.WriteLine("Vignette size : " + myVignette.Size.ToString());
-                //Orange hexagon
-                System.Drawing.Rectangle container = new System.Drawing.Rectangle(position.X, position.Y, 100, 100);
-                if (myVignette.Width < position.X + 2 * 100)
+                Node newNode = new Node(position, "aaaa", type, "lelelelelele");
+                nodes.Add(newNode);
+                
+
+                if (myVignette.Image.Width < position.X + 2 * 100)
                 {
-                    graphics.Clear(Color.Turquoise);
-                    myVignette.Size = new Size(myVignette.Width + 5 * 100, 722);
-                    myVignette.Location = new Point(0, 0);
+                    Console.WriteLine("Raise width");
+                    Bitmap bmp = new Bitmap(myVignette.Image.Width + 5 * 100, myVignette.Image.Height);
+                    myVignette.Image = bmp;
+                    Console.WriteLine(myVignette.Image.Width);
                 }
-
-                Console.WriteLine("Vignette size : " + myVignette.Size.ToString());
-
-                Point[] points = new Point[7];
-
-                int half = container.Height / 2;
-                int quart = container.Width / 4;
-                points[0] = new Point(container.Left + quart, container.Top);
-                points[1] = new Point(container.Right - quart, container.Top);
-                points[2] = new Point(container.Right, container.Top + half);
-                points[3] = new Point(container.Right - quart, container.Bottom);
-                points[4] = new Point(container.Left + quart, container.Bottom);
-                points[5] = new Point(container.Left, container.Top + half);
-                points[6] = new Point(container.Left + quart, container.Top);
-
-                GraphicsPath shapePath = new GraphicsPath();
-                shapePath.AddLines(points);
-
-                using (Pen pen = new Pen(Color.Black, 2))
-                using (SolidBrush brush = new SolidBrush(Color.Orange))
+                if (myVignette.Image.Height < position.Y + 2 * 100)
                 {
-                    graphics.FillPath(brush, shapePath);
-                    graphics.DrawPath(pen, shapePath);
-                    graphics.Dispose();
+                    Bitmap bmp = new Bitmap(myVignette.Image.Width, myVignette.Image.Height + 5 * 100);
+                    myVignette.Image = bmp;
                 }
+                
             }
-            myVignette.Refresh();
-            myVignette.Invalidate();
-            
+            paint();
         }
     }
 }

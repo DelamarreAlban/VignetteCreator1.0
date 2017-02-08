@@ -40,12 +40,13 @@
             // 
             // myVignette
             // 
+            this.myVignette.Cursor = System.Windows.Forms.Cursors.Default;
             this.myVignette.Location = new System.Drawing.Point(0, 3);
             this.myVignette.Name = "myVignette";
             this.myVignette.Size = new System.Drawing.Size(1266, 796);
+            this.myVignette.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.myVignette.TabIndex = 0;
             this.myVignette.TabStop = false;
-            this.myVignette.Paint += new System.Windows.Forms.PaintEventHandler(this.myVignette_Paint);
             this.myVignette.MouseDown += new System.Windows.Forms.MouseEventHandler(this.myVignette_MouseDown);
             // 
             // menuStrip1
@@ -68,6 +69,7 @@
             // panel1
             // 
             this.panel1.AutoScroll = true;
+            this.panel1.AutoSize = true;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel1.Controls.Add(this.myVignette);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -80,6 +82,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1687, 1104);
             this.Controls.Add(this.panel1);
@@ -92,6 +95,7 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

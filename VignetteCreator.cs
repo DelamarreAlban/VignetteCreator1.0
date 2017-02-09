@@ -246,6 +246,24 @@ namespace VignetteCreator1._0
             }
         }
 
+        private void myVignette_DoubleClick(object sender, EventArgs e)
+        {
+            MouseEventArgs me = (MouseEventArgs)e;
+            Point clickCoordinates = me.Location;
+            if (me.Button == MouseButtons.Left)
+            {
+                foreach(Node n in nodes)
+                {
+                    if(n.Container.Contains(clickCoordinates))
+                    {
+                        NodeOptions options = new NodeOptions(n);
+                        options.Show();
+                    }
+                }
+                
+            }
+        }
+
         #endregion
 
 
@@ -274,6 +292,8 @@ namespace VignetteCreator1._0
             }
         }
 
-        #endregion      
+        #endregion
+
+        
     }
 }

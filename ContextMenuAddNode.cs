@@ -54,9 +54,7 @@ namespace VignetteCreator1._0
 
             drawButtons();
         }
-
-        // add this code after the class' default constructor
-
+        
         public ContextMenuAddNode(VignetteCreator _parent, Point _position) : this()
         {
             parent = _parent;

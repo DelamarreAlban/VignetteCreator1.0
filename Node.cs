@@ -73,12 +73,25 @@ namespace VignetteCreator1._0
             set{outgoing = value;}
         }
 
+        public string Description
+        {
+            get
+            {
+                return description;
+            }
+
+            set
+            {
+                description = value;
+            }
+        }
+
         public Node(Point _position, string _name, string _type, string _description)
         {
             Position = _position;
             Name = _name;
             Type = _type;
-            description = _description;
+            Description = _description;
 
             getShape();
         }

@@ -58,6 +58,12 @@
     </Compile>
     <Compile Include="Edge.cs" />
     <Compile Include="Node.cs" />
+    <Compile Include="NodeOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NodeOptions.Designer.cs">
+      <DependentUpon>NodeOptions.cs</DependentUpon>
+    </Compile>
     <Compile Include="VignetteCreator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -68,6 +74,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ContextMenuAddNode.resx">
       <DependentUpon>ContextMenuAddNode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NodeOptions.resx">
+      <DependentUpon>NodeOptions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VignetteCreator.resx">
       <DependentUpon>VignetteCreator.cs</DependentUpon>

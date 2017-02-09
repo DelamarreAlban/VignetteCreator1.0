@@ -8,7 +8,7 @@ using System.Windows.Shapes;
 
 namespace VignetteCreator1._0
 {
-    class Node
+    public class Node
     {
         private string name;
         private string type;
@@ -44,6 +44,11 @@ namespace VignetteCreator1._0
             set{position = value;}
         }
 
+        public Point Center
+        {
+            get{ return new Point(position.X + container.Width / 2, position.Y + container.Height / 2); }
+        }
+
         public System.Drawing.Rectangle Container
         {
             get{return container;}
@@ -54,6 +59,18 @@ namespace VignetteCreator1._0
         {
             get{return name;}
             set{name = value;}
+        }
+
+        public List<Edge> Incoming
+        {
+            get{return incoming;}
+            set{incoming = value;}
+        }
+
+        public List<Edge> Outgoing
+        {
+            get{return outgoing;}
+            set{outgoing = value;}
         }
 
         public Node(Point _position, string _name, string _type, string _description)

@@ -20,6 +20,9 @@ namespace VignetteCreator1._0
         ContextMenuAddNode addNodeContextMenu;
 
         Node movingNode = null;
+        Edge movingEdge = null;
+
+        #region Constructor
 
         public VignetteCreator()
         {
@@ -38,35 +41,67 @@ namespace VignetteCreator1._0
 
         }
 
+        #endregion
 
-
-        private void paint()
+        #region painting
+        private void Paint()
         {
-            
-            if (movingNode == null)
+            if (movingNode == null && movingEdge == null)
             {
                 Graphics graphics = Graphics.FromImage(myVignette.Image);
                 graphics.Clear(Color.White);
-
                 foreach (Node n in nodes)
                 {
-                    //Console.WriteLine(n.Position);
                     drawNode(graphics, n);
                 }
-                
+                foreach (Edge e in edges)
+                {
+                    drawEdge(graphics, e);
+                }
             }
-            else
+            else 
             {
                 Bitmap bitmap = new Bitmap(myVignette.Image.Width, myVignette.Image.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                 bitmap.MakeTransparent();
-                using (Graphics graph = Graphics.FromImage(bitmap))
+                using (Graphics graphics = Graphics.FromImage(bitmap))
                 {
-                    drawNode(graph, movingNode);
+                    if (movingNode != null)
+                    {
+                        drawNode(graphics, movingNode);
+                        foreach (Edge e in movingNode.Incoming)
+                        {
+                            e.End = movingNode.Center;
+                            drawEdge(graphics, e);
+                        }
+                        foreach (Edge e in movingNode.Outgoing)
+                        {
+                            e.Start = movingNode.Center;
+                            drawEdge(graphics, e);
+                        }
+                    }
+                    else if (movingEdge != null)
+                        drawEdge(graphics, movingEdge);
                 }
                 myVignette.Image = bitmap;   
             }
             Invalidate();
             myVignette.Refresh();
+        }
+
+        private void PaintExcept(Node exceptionNode)
+        {
+            Graphics graphics = Graphics.FromImage(myVignette.Image);
+            graphics.Clear(Color.White);
+            foreach (Node n in nodes)
+            {
+                if(n != exceptionNode)
+                    drawNode(graphics, n);
+            }
+            foreach (Edge e in edges)
+            {
+                if(e.Source != exceptionNode && e.Target != exceptionNode)
+                    drawEdge(graphics, e);
+            }
         }
 
         private void drawNode(Graphics g, Node n)
@@ -79,6 +114,34 @@ namespace VignetteCreator1._0
             }
         }
 
+        private void drawEdge(Graphics g, Edge e)
+        {
+            using (Pen pen = new Pen(Color.Black, 5))
+            {
+                pen.EndCap = LineCap.ArrowAnchor;
+                pen.StartCap = LineCap.RoundAnchor;
+                g.DrawLine(pen, e.Start.X, e.Start.Y, e.End.X, e.End.Y);
+            }
+        }
+
+        public void resizeImage(Point position)
+        {
+            if (myVignette.Image.Width < position.X + 2 * 100)
+            {
+                Bitmap bmp = new Bitmap(position.X + 5 * 100, myVignette.Image.Height);
+                myVignette.Image = bmp;
+                Console.WriteLine(myVignette.Image.Width);
+            }
+            if (myVignette.Image.Height < position.Y + 2 * 100)
+            {
+                Bitmap bmp = new Bitmap(myVignette.Image.Width, position.Y + 5 * 100);
+                myVignette.Image = bmp;
+            }
+        }
+
+        #endregion
+
+        #region mouse_Action
         private void myVignette_MouseDown(object sender, MouseEventArgs e)
         {
             MouseEventArgs me = (MouseEventArgs)e;
@@ -90,10 +153,25 @@ namespace VignetteCreator1._0
             addNodeContextMenu = null;
             if (e.Button == MouseButtons.Right)
             {
-                addNodeContextMenu = new ContextMenuAddNode(this, clickCoordinates);
-                addNodeContextMenu.Show();
+                bool clickOnShape = false;
+                //Right click on node -> start arrow for connection
+                foreach (Node n in nodes)
+                {
+                    if (n.Container.Contains(clickCoordinates))
+                    {
+                        clickOnShape = true;
+                        movingEdge = new Edge(clickCoordinates, n);
+                        myVignette.BackgroundImage = myVignette.Image;
+                    }
+                }
+                //Right click on blank space -> menu add node
+                if (!clickOnShape && movingEdge == null)
+                {
+                    addNodeContextMenu = new ContextMenuAddNode(this, clickCoordinates);
+                    addNodeContextMenu.Show();
+                }
             }
-            else if(e.Button == MouseButtons.Left)
+            else if (e.Button == MouseButtons.Left)
             {
                 if (movingNode == null)
                 {
@@ -102,14 +180,15 @@ namespace VignetteCreator1._0
                         if (n.Container.Contains(clickCoordinates))
                         {
                             movingNode = n;
-                            myVignette.BackgroundImage = myVignette.Image;
                         }
                     }
+                    if(movingNode != null)
+                    {
+                        PaintExcept(movingNode);
+                        myVignette.BackgroundImage = myVignette.Image;
+                    }
                 }
-                else
-                {
-
-                }
+                
             }
         }
 
@@ -118,29 +197,59 @@ namespace VignetteCreator1._0
             if (movingNode != null)
             {
                 MouseEventArgs me = (MouseEventArgs)e;
-                Point clickCoordinates = me.Location;
-                movingNode.Position = clickCoordinates;
+                Point cursorPosition = me.Location;
+                movingNode.Position = new Point(cursorPosition.X - movingNode.Container.Width / 2, cursorPosition.Y - movingNode.Container.Height / 2);
                 movingNode.getShape();
-                Console.WriteLine(movingNode.Position);
-                paint();
+                Paint();
             }
+            else if (movingEdge != null)
+            {
+                MouseEventArgs me = (MouseEventArgs)e;
+                Point cursorPosition = me.Location;
+                movingEdge.End = cursorPosition;
+                Paint();
+            }
+                
         }
 
         private void myVignette_MouseUp(object sender, MouseEventArgs e)
         {
+            MouseEventArgs me = (MouseEventArgs)e;
+            Point clickCoordinates = me.Location;
             if (e.Button == MouseButtons.Left)
             {
-                MouseEventArgs me = (MouseEventArgs)e;
-                Point clickCoordinates = me.Location;
-                if(movingNode != null)
+                if (movingNode != null)
                 {
                     movingNode.Position = clickCoordinates;
+                    resizeImage(movingNode.Position);
                     movingNode = null;
-                    paint();
+                    Paint();
                 }
-                
+            }
+            if (e.Button == MouseButtons.Right)
+            {
+                if (movingEdge != null)
+                {
+                    movingEdge.End = clickCoordinates;
+                    foreach (Node n in nodes)
+                    {
+                        if (n.Container.Contains(movingEdge.End))
+                        {
+                            movingEdge.Target = n;
+                            addEdge(movingEdge);
+                        }
+                    }
+                    movingEdge.Destroy();
+                    movingEdge = null;
+                    Paint();
+                }
             }
         }
+
+        #endregion
+
+
+        #region graph_constructors
 
         public void addNode(string type, Point position)
         {
@@ -150,29 +259,21 @@ namespace VignetteCreator1._0
 
             resizeImage(position);
 
-            paint();
+            Paint();
         }
 
-        public void resizeImage(Point position)
+        public void addEdge(Edge e)
         {
-            if (myVignette.Image.Width < position.X + 2 * 100)
+            Edge newEdge = new Edge(e);
+            if(newEdge.Target != null && newEdge.Source != null)
             {
-                Bitmap bmp = new Bitmap(myVignette.Image.Width + 5 * 100, myVignette.Image.Height);
-                myVignette.Image = bmp;
-                Console.WriteLine(myVignette.Image.Width);
-            }
-            if (myVignette.Image.Height < position.Y + 2 * 100)
-            {
-                Bitmap bmp = new Bitmap(myVignette.Image.Width, myVignette.Image.Height + 5 * 100);
-                myVignette.Image = bmp;
+                Console.WriteLine("Target and source not null");
+                edges.Add(newEdge);
+                newEdge.Source.Outgoing.Add(newEdge);
+                newEdge.Target.Incoming.Add(newEdge);
             }
         }
 
-        private void moveNode(Node n)
-        {
-
-        }
-
-        
+        #endregion      
     }
 }

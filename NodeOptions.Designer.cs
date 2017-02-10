@@ -34,6 +34,10 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.NameTB = new System.Windows.Forms.TextBox();
+            this.confirmB = new System.Windows.Forms.Button();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.cancelB = new System.Windows.Forms.Button();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -48,7 +52,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 250);
+            this.label2.Location = new System.Drawing.Point(12, 198);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(132, 25);
             this.label2.TabIndex = 1;
@@ -56,18 +60,19 @@
             // 
             // DescriptionTB
             // 
-            this.DescriptionTB.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.DescriptionTB.Location = new System.Drawing.Point(0, 278);
+            this.tableLayoutPanel1.SetColumnSpan(this.DescriptionTB, 2);
+            this.DescriptionTB.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DescriptionTB.Location = new System.Drawing.Point(3, 3);
             this.DescriptionTB.Multiline = true;
             this.DescriptionTB.Name = "DescriptionTB";
             this.DescriptionTB.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.DescriptionTB.Size = new System.Drawing.Size(593, 260);
+            this.DescriptionTB.Size = new System.Drawing.Size(587, 233);
             this.DescriptionTB.TabIndex = 2;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(350, 9);
+            this.label3.Location = new System.Drawing.Point(380, 9);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(72, 25);
             this.label3.TabIndex = 3;
@@ -76,7 +81,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 42);
+            this.label4.Location = new System.Drawing.Point(12, 67);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(84, 25);
             this.label4.TabIndex = 4;
@@ -86,22 +91,63 @@
             // 
             this.NameTB.Location = new System.Drawing.Point(98, 6);
             this.NameTB.Name = "NameTB";
-            this.NameTB.Size = new System.Drawing.Size(246, 31);
+            this.NameTB.Size = new System.Drawing.Size(177, 31);
             this.NameTB.TabIndex = 5;
+            // 
+            // confirmB
+            // 
+            this.confirmB.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.confirmB.Location = new System.Drawing.Point(3, 242);
+            this.confirmB.Name = "confirmB";
+            this.confirmB.Size = new System.Drawing.Size(290, 58);
+            this.confirmB.TabIndex = 6;
+            this.confirmB.Text = "Confirm";
+            this.confirmB.UseVisualStyleBackColor = true;
+            this.confirmB.Click += new System.EventHandler(this.confirmB_Click);
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.confirmB, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.cancelB, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.DescriptionTB, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 235);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 64F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(593, 303);
+            this.tableLayoutPanel1.TabIndex = 7;
+            // 
+            // cancelB
+            // 
+            this.cancelB.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cancelB.Location = new System.Drawing.Point(299, 242);
+            this.cancelB.Name = "cancelB";
+            this.cancelB.Size = new System.Drawing.Size(291, 58);
+            this.cancelB.TabIndex = 7;
+            this.cancelB.Text = "Cancel";
+            this.cancelB.UseVisualStyleBackColor = true;
+            this.cancelB.Click += new System.EventHandler(this.cancelB_Click);
             // 
             // NodeOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(593, 538);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.NameTB);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.DescriptionTB);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "NodeOptions";
             this.Text = "Node Details";
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -115,5 +161,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox NameTB;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Button confirmB;
+        private System.Windows.Forms.Button cancelB;
     }
 }

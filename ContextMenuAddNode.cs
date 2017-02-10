@@ -110,7 +110,6 @@ namespace VignetteCreator1._0
                 {
                     if(b.Container.Contains(clickCoordinates))
                     {
-                        Console.WriteLine("Click on custom button");
                         clicked(b.Type);
                     }
                 }                
@@ -161,14 +160,8 @@ namespace VignetteCreator1._0
                     Color = Color.LightSkyBlue;
 
                     Point[] points = new Point[5];
-                    points[0] = new Point(Container.Left, Container.Top);
-                    points[1] = new Point(Container.Right, Container.Top);
-                    points[2] = new Point(Container.Right, Container.Bottom);
-                    points[3] = new Point(Container.Left, Container.Bottom);
-                    points[4] = new Point(Container.Left, Container.Top);
-
                     Shape = new GraphicsPath();
-                    Shape.AddLines(points);
+                    Shape.AddRectangle(Container);
                 }
                 else if (Type == "decision")
                 {
@@ -190,22 +183,9 @@ namespace VignetteCreator1._0
                 {
                     //Red rounded rectangle
                     Color = Color.Red;
-                    Point[] points = new Point[7];
-                    int half = Container.Height / 2;
-                    int quart = Container.Width / 4;
-                    points[0] = new Point(Container.Left, Container.Top);
-                    points[1] = new Point(Container.Right, Container.Top);
-                    points[2] = new Point(Container.Right + quart, Container.Top + half);
-                    points[3] = new Point(Container.Right, Container.Bottom);
-                    points[4] = new Point(Container.Left, Container.Bottom);
-                    points[5] = new Point(Container.Left - quart, Container.Top + half);
-                    points[6] = new Point(Container.Left, Container.Top);
 
                     Shape = new GraphicsPath();
-                    Shape.AddLine(points[0], points[1]);
-                    Shape.AddCurve(new Point[] { points[1], points[2], points[3] });
-                    Shape.AddLine(points[3], points[4]);
-                    Shape.AddCurve(new Point[] { points[4], points[5], points[6] });
+                    Shape = MakeRoundedRect(Container, 30, 30, true, true, true, true);
                 }
                 else if (Type == "class_action")
                 {
@@ -223,6 +203,94 @@ namespace VignetteCreator1._0
                     Shape.AddLines(points);
 
                 }
+            }
+
+            
+            private GraphicsPath MakeRoundedRect(RectangleF rect, float xradius, float yradius,bool round_ul, bool round_ur, bool round_lr, bool round_ll)
+            {
+                // Draw a rectangle in the indicated Rectangle
+                // rounding the indicated corners.
+                // Make a GraphicsPath to draw the rectangle.
+                PointF point1, point2;
+                GraphicsPath path = new GraphicsPath();
+
+                // Upper left corner.
+                if (round_ul)
+                {
+                    RectangleF corner = new RectangleF(
+                        rect.X, rect.Y,
+                        2 * xradius, 2 * yradius);
+                    path.AddArc(corner, 180, 90);
+                    point1 = new PointF(rect.X + xradius, rect.Y);
+                }
+                else point1 = new PointF(rect.X, rect.Y);
+
+                // Top side.
+                if (round_ur)
+                    point2 = new PointF(rect.Right - xradius, rect.Y);
+                else
+                    point2 = new PointF(rect.Right, rect.Y);
+                path.AddLine(point1, point2);
+
+                // Upper right corner.
+                if (round_ur)
+                {
+                    RectangleF corner = new RectangleF(
+                        rect.Right - 2 * xradius, rect.Y,
+                        2 * xradius, 2 * yradius);
+                    path.AddArc(corner, 270, 90);
+                    point1 = new PointF(rect.Right, rect.Y + yradius);
+                }
+                else point1 = new PointF(rect.Right, rect.Y);
+
+                // Right side.
+                if (round_lr)
+                    point2 = new PointF(rect.Right, rect.Bottom - yradius);
+                else
+                    point2 = new PointF(rect.Right, rect.Bottom);
+                path.AddLine(point1, point2);
+
+                // Lower right corner.
+                if (round_lr)
+                {
+                    RectangleF corner = new RectangleF(
+                        rect.Right - 2 * xradius,
+                        rect.Bottom - 2 * yradius,
+                        2 * xradius, 2 * yradius);
+                    path.AddArc(corner, 0, 90);
+                    point1 = new PointF(rect.Right - xradius, rect.Bottom);
+                }
+                else point1 = new PointF(rect.Right, rect.Bottom);
+
+                // Bottom side.
+                if (round_ll)
+                    point2 = new PointF(rect.X + xradius, rect.Bottom);
+                else
+                    point2 = new PointF(rect.X, rect.Bottom);
+                path.AddLine(point1, point2);
+
+                // Lower left corner.
+                if (round_ll)
+                {
+                    RectangleF corner = new RectangleF(
+                        rect.X, rect.Bottom - 2 * yradius,
+                        2 * xradius, 2 * yradius);
+                    path.AddArc(corner, 90, 90);
+                    point1 = new PointF(rect.X, rect.Bottom - yradius);
+                }
+                else point1 = new PointF(rect.X, rect.Bottom);
+
+                // Left side.
+                if (round_ul)
+                    point2 = new PointF(rect.X, rect.Y + yradius);
+                else
+                    point2 = new PointF(rect.X, rect.Y);
+                path.AddLine(point1, point2);
+
+                // Join with the start point.
+                path.CloseFigure();
+
+                return path;
             }
         }
 

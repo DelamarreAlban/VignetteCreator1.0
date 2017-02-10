@@ -44,7 +44,7 @@ namespace VignetteCreator1._0
         #endregion
 
         #region painting
-        private void Paint()
+        public void onPaint()
         {
             if (movingNode == null && movingEdge == null)
             {
@@ -109,8 +109,12 @@ namespace VignetteCreator1._0
             using (Pen pen = new Pen(Color.Black, 2))
             using (SolidBrush brush = new SolidBrush(n.Color))
             {
+                Font font = new Font("Arial", 14);
+                int textSize = TextRenderer.MeasureText(n.Description + " ", font).Width;
+                Console.WriteLine(textSize);
                 g.FillPath(brush, n.Shape);
                 g.DrawPath(pen, n.Shape);
+                drawDescription(g, font, n);
             }
         }
 
@@ -122,6 +126,20 @@ namespace VignetteCreator1._0
                 pen.StartCap = LineCap.RoundAnchor;
                 g.DrawLine(pen, e.Start.X, e.Start.Y, e.End.X, e.End.Y);
             }
+        }
+
+        private void drawDescription(Graphics g, Font f, Node n)
+        {
+            StringFormat sf = new StringFormat();
+            sf.FormatFlags = StringFormatFlags.NoClip;
+            sf.Alignment = StringAlignment.Center;        // horizontal alignment
+            sf.LineAlignment = StringAlignment.Center;    // vertical alignment
+            int h = TextRenderer.MeasureText(n.Description + " ", f).Width / n.Container.Width;
+            g.DrawString(n.Description, f, Brushes.Black, 
+                new System.Drawing.Rectangle(n.Container.X,
+                n.Container.Y - n.Container.Height ,
+                n.Container.Width,
+                n.Container.Height + h*22), sf);
         }
 
         public void resizeImage(Point position)
@@ -200,14 +218,14 @@ namespace VignetteCreator1._0
                 Point cursorPosition = me.Location;
                 movingNode.Position = new Point(cursorPosition.X - movingNode.Container.Width / 2, cursorPosition.Y - movingNode.Container.Height / 2);
                 movingNode.getShape();
-                Paint();
+                onPaint();
             }
             else if (movingEdge != null)
             {
                 MouseEventArgs me = (MouseEventArgs)e;
                 Point cursorPosition = me.Location;
                 movingEdge.End = cursorPosition;
-                Paint();
+                onPaint();
             }
                 
         }
@@ -223,7 +241,7 @@ namespace VignetteCreator1._0
                     movingNode.Position = clickCoordinates;
                     resizeImage(movingNode.Position);
                     movingNode = null;
-                    Paint();
+                    onPaint();
                 }
             }
             if (e.Button == MouseButtons.Right)
@@ -241,7 +259,7 @@ namespace VignetteCreator1._0
                     }
                     movingEdge.Destroy();
                     movingEdge = null;
-                    Paint();
+                    onPaint();
                 }
             }
         }
@@ -256,7 +274,7 @@ namespace VignetteCreator1._0
                 {
                     if(n.Container.Contains(clickCoordinates))
                     {
-                        NodeOptions options = new NodeOptions(n);
+                        NodeOptions options = new NodeOptions(this, n);
                         options.Show();
                     }
                 }
@@ -272,18 +290,18 @@ namespace VignetteCreator1._0
         public void addNode(string type, Point position)
         {
             //Name and description
-            Node newNode = new Node(position, "aaaa", type, "lelelelelele");
+            Node newNode = new Node(position, nodes.Count.ToString(), type, "");
             nodes.Add(newNode);
 
             resizeImage(position);
 
-            Paint();
+            onPaint();
         }
 
         public void addEdge(Edge e)
         {
             Edge newEdge = new Edge(e);
-            if(newEdge.Target != null && newEdge.Source != null)
+            if(newEdge.Target != null && newEdge.Source != null && newEdge.Target != newEdge.Source)
             {
                 Console.WriteLine("Target and source not null");
                 edges.Add(newEdge);

@@ -37,6 +37,9 @@
             this.confirmB = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.cancelB = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.widthTB = new System.Windows.Forms.TextBox();
+            this.heightTB = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -81,11 +84,11 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 67);
+            this.label4.Location = new System.Drawing.Point(12, 62);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(84, 25);
+            this.label4.Size = new System.Drawing.Size(66, 25);
             this.label4.TabIndex = 4;
-            this.label4.Text = "Action :";
+            this.label4.Text = "Size :";
             // 
             // NameTB
             // 
@@ -133,11 +136,37 @@
             this.cancelB.UseVisualStyleBackColor = true;
             this.cancelB.Click += new System.EventHandler(this.cancelB_Click);
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(180, 62);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(23, 25);
+            this.label5.TabIndex = 8;
+            this.label5.Text = "x";
+            // 
+            // widthTB
+            // 
+            this.widthTB.Location = new System.Drawing.Point(84, 62);
+            this.widthTB.Name = "widthTB";
+            this.widthTB.Size = new System.Drawing.Size(86, 31);
+            this.widthTB.TabIndex = 9;
+            // 
+            // heightTB
+            // 
+            this.heightTB.Location = new System.Drawing.Point(209, 62);
+            this.heightTB.Name = "heightTB";
+            this.heightTB.Size = new System.Drawing.Size(86, 31);
+            this.heightTB.TabIndex = 10;
+            // 
             // NodeOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(593, 538);
+            this.Controls.Add(this.heightTB);
+            this.Controls.Add(this.widthTB);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.NameTB);
             this.Controls.Add(this.label4);
@@ -164,5 +193,8 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button confirmB;
         private System.Windows.Forms.Button cancelB;
+        private System.Windows.Forms.TextBox widthTB;
+        private System.Windows.Forms.TextBox heightTB;
+        private System.Windows.Forms.Label label5;
     }
 }

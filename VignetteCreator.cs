@@ -22,6 +22,8 @@ namespace VignetteCreator1._0
         Node movingNode = null;
         Edge movingEdge = null;
 
+        Font font = new Font("Arial", 10);
+
         #region Constructor
 
         public VignetteCreator()
@@ -52,7 +54,11 @@ namespace VignetteCreator1._0
                 graphics.Clear(Color.White);
                 foreach (Node n in nodes)
                 {
-                    drawNode(graphics, n);
+                    
+                    Size rectSize = textBoxSize(n, TextRenderer.MeasureText(n.Description + " ", font));
+                    n.Width = rectSize.Width;
+                    n.Height = rectSize.Height;
+                    drawNode(graphics, n, font);
                 }
                 foreach (Edge e in edges)
                 {
@@ -67,7 +73,7 @@ namespace VignetteCreator1._0
                 {
                     if (movingNode != null)
                     {
-                        drawNode(graphics, movingNode);
+                        drawNode(graphics, movingNode, font);
                         foreach (Edge e in movingNode.Incoming)
                         {
                             e.End = movingNode.Center;
@@ -95,7 +101,7 @@ namespace VignetteCreator1._0
             foreach (Node n in nodes)
             {
                 if(n != exceptionNode)
-                    drawNode(graphics, n);
+                    drawNode(graphics, n, font);
             }
             foreach (Edge e in edges)
             {
@@ -104,17 +110,14 @@ namespace VignetteCreator1._0
             }
         }
 
-        private void drawNode(Graphics g, Node n)
+        private void drawNode(Graphics g, Node n, Font f)
         {
             using (Pen pen = new Pen(Color.Black, 2))
             using (SolidBrush brush = new SolidBrush(n.Color))
             {
-                Font font = new Font("Arial", 14);
-                int textSize = TextRenderer.MeasureText(n.Description + " ", font).Width;
-                Console.WriteLine(textSize);
                 g.FillPath(brush, n.Shape);
                 g.DrawPath(pen, n.Shape);
-                drawDescription(g, font, n);
+                drawDescription(g, f, n);
             }
         }
 
@@ -134,12 +137,21 @@ namespace VignetteCreator1._0
             sf.FormatFlags = StringFormatFlags.NoClip;
             sf.Alignment = StringAlignment.Center;        // horizontal alignment
             sf.LineAlignment = StringAlignment.Center;    // vertical alignment
-            int h = TextRenderer.MeasureText(n.Description + " ", f).Width / n.Container.Width;
-            g.DrawString(n.Description, f, Brushes.Black, 
-                new System.Drawing.Rectangle(n.Container.X,
-                n.Container.Y - n.Container.Height ,
-                n.Container.Width,
-                n.Container.Height + h*22), sf);
+            g.DrawString(n.Description, f, Brushes.Black, n.Container, sf);
+        }
+
+        private Size textBoxSize(Node n, Size textSize)
+        {
+            int lineHeight = textSize.Height;
+            int w = n.Container.Width;
+            int h = ((textSize.Width / w) + 1) * lineHeight;
+            while (h > w+lineHeight)
+            {
+                w += 50;
+                h = ((textSize.Width / w) + 2) * lineHeight;
+            }
+            Size optimizedSize = new Size(Math.Max(w,100), Math.Max(h, 100));
+            return optimizedSize;
         }
 
         public void resizeImage(Point position)

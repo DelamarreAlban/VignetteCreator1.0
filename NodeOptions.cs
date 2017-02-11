@@ -26,6 +26,9 @@ namespace VignetteCreator1._0
             node = n;
             NameTB.Text = n.Name;
             DescriptionTB.Text = n.Description;
+            widthTB.Text = n.Width.ToString();
+            heightTB.Text = n.Height.ToString();
+
 
             Load += new EventHandler(NodeOptions_Load);
         }
@@ -40,6 +43,8 @@ namespace VignetteCreator1._0
         {
             node.Name = NameTB.Text;
             node.Description = DescriptionTB.Text;
+            node.Width = Int32.Parse(widthTB.Text);
+            node.Height = Int32.Parse(heightTB.Text);
             parent.onPaint();
             this.Close();
         }
